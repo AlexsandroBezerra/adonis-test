@@ -1,5 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+
+import User from './User'
+import ToDoItem from './ToDoItem'
 
 export default class ToDoList extends BaseModel {
   @column({ isPrimary: true })
@@ -10,6 +13,12 @@ export default class ToDoList extends BaseModel {
 
   @column()
   public user_id: number
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
+
+  @hasMany(() => ToDoItem, { foreignKey: 'to_do_list_id' })
+  public toDoItems: HasMany<typeof ToDoItem>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

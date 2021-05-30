@@ -36,6 +36,14 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'ToDoListsController.index')
   Route.post('/', 'ToDoListsController.create')
+  Route.get('/:id', 'ToDoListsController.show')
+
+  Route.group(() => {
+    Route.get('/', 'ToDoItemsController.index')
+    Route.post('/', 'ToDoItemsController.create')
+    Route.patch('/:itemId', 'ToDoItemsController.update')
+    Route.delete('/:itemId', 'ToDoItemsController.delete')
+  }).prefix('/:id/to-do-items')
 })
   .prefix('/to-do-lists')
   .middleware('auth')

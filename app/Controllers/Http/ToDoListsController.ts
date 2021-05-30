@@ -34,4 +34,26 @@ export default class ToDoListsController {
 
     return toDoList
   }
+
+  public async show({ auth, request, response }: HttpContextContract) {
+    const { user } = auth
+    const { id } = request.params()
+
+    if (!user) {
+      return response.unauthorized({ error: 'token not provided' })
+    }
+
+    const toDoList = await user
+      .related('toDoLists')
+      .query()
+      .where('user_id', user.id)
+      .where('to_do_lists.id', id)
+      .first()
+
+    if (!toDoList) {
+      return response.notFound()
+    }
+
+    return toDoList
+  }
 }
