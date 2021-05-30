@@ -4,7 +4,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 
 import ToDoList from './ToDoList'
 
-export default class Profile extends BaseModel {
+export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -24,7 +24,7 @@ export default class Profile extends BaseModel {
   })
   public avatar: string | null
 
-  @hasMany(() => ToDoList, { foreignKey: 'profile_id' })
+  @hasMany(() => ToDoList, { foreignKey: 'user_id' })
   public toDoLists: HasMany<typeof ToDoList>
 
   @column.dateTime({ autoCreate: true })
@@ -34,7 +34,7 @@ export default class Profile extends BaseModel {
   public updatedAt: DateTime
 
   @beforeSave()
-  public static async hashPassword(user: Profile) {
+  public static async hashPassword(user: User) {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }

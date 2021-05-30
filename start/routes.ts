@@ -22,9 +22,9 @@ import Route from '@ioc:Adonis/Core/Route'
 import Application from '@ioc:Adonis/Core/Application'
 
 Route.group(() => {
-  Route.post('/', 'ProfilesController.create')
-  Route.get('/', 'ProfilesController.show').middleware('auth')
-}).prefix('/profiles')
+  Route.post('/', 'UsersController.create')
+  Route.get('/', 'UsersController.show').middleware('auth')
+}).prefix('/users')
 
 Route.group(() => {
   Route.post('/', 'UserAvatarsController.create')

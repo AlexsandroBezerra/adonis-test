@@ -8,9 +8,9 @@ export default class ToDoLists extends BaseSchema {
       table.increments('id').primary()
       table.string('name').notNullable()
       table
-        .integer('profile_id')
+        .integer('user_id')
         .unsigned()
-        .references('profiles.id')
+        .references('users.id')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
       table.timestamp('created_at', { useTz: true })

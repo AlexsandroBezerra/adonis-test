@@ -9,7 +9,7 @@ export default class ToDoList extends BaseModel {
   public name: string
 
   @column()
-  public profile_id: number
+  public user_id: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

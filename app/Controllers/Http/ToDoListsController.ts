@@ -11,7 +11,7 @@ export default class ToDoListsController {
       return response.unauthorized({ error: 'token not provided' })
     }
 
-    const toDoLists = ToDoList.query().where('profile_id', user.id)
+    const toDoLists = ToDoList.query().where('user_id', user.id)
 
     return toDoLists
   }

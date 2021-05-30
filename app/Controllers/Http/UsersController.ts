@@ -1,22 +1,22 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import Profile from 'App/Models/Profile'
-import CreateProfileValidator from 'App/Validators/CreateProfileValidator'
+import User from 'App/Models/User'
+import CreateUserValidator from 'App/Validators/CreateUserValidator'
 
-export default class ProfilesController {
+export default class UsersController {
   public async create({ request, response }: HttpContextContract) {
     try {
-      await request.validate(CreateProfileValidator)
+      await request.validate(CreateUserValidator)
     } catch (err) {
       return response.badRequest(err.messages)
     }
 
     try {
-      const profileData = request.only(['name', 'email', 'password'])
+      const userData = request.only(['name', 'email', 'password'])
 
-      const profile = await Profile.create(profileData)
+      const user = await User.create(userData)
 
-      return profile
+      return user
     } catch (err) {
       response.conflict({ error: 'Email provided is used' })
     }
