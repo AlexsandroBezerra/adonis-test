@@ -1,5 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
+import CreateToDoItemValidator from 'App/Validators/CreateToDoItemValidator'
+import UpdateToDoItemValidator from 'App/Validators/UpdateToDoItemValidator'
+
 export default class ToDoItemsController {
   public async index({ auth, request, response }: HttpContextContract) {
     const { user } = auth
@@ -26,6 +29,12 @@ export default class ToDoItemsController {
   }
 
   public async create({ auth, request, response }: HttpContextContract) {
+    try {
+      await request.validate(CreateToDoItemValidator)
+    } catch (err) {
+      return response.badRequest(err.messages)
+    }
+
     const { user } = auth
     const { id } = request.params()
     const { text } = request.only(['text'])
@@ -51,6 +60,12 @@ export default class ToDoItemsController {
   }
 
   public async update({ auth, request, response }: HttpContextContract) {
+    try {
+      await request.validate(UpdateToDoItemValidator)
+    } catch (err) {
+      return response.badRequest(err.messages)
+    }
+
     const { user } = auth
     const { id, itemId } = request.params()
     const { text, done } = request.only(['text', 'done'])
