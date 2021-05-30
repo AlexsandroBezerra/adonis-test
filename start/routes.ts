@@ -19,10 +19,18 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import Application from '@ioc:Adonis/Core/Application'
 
-Route.post('/profiles', 'ProfilesController.create')
+Route.group(() => {
+  Route.post('/', 'ProfilesController.create')
+  Route.post('/avatar', 'ProfilesController.uploadAvatar')
+}).prefix('/profiles')
 
 Route.group(() => {
   Route.get('/', 'ToDoListsController.index')
   Route.post('/', 'ToDoListsController.create')
 }).prefix('/to-do-lists')
+
+Route.get('/uploads/:filename', async ({ params, response }) => {
+  return response.attachment(Application.tmpPath('uploads', params.filename))
+})
