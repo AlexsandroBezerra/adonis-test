@@ -4,10 +4,6 @@ import Profile from 'App/Models/Profile'
 import CreateProfileValidator from 'App/Validators/CreateProfileValidator'
 
 export default class ProfilesController {
-  public async show({ auth }: HttpContextContract) {
-    return auth.user
-  }
-
   public async create({ request, response }: HttpContextContract) {
     try {
       await request.validate(CreateProfileValidator)
@@ -24,5 +20,9 @@ export default class ProfilesController {
     } catch (err) {
       response.conflict({ error: 'Email provided is used' })
     }
+  }
+
+  public async show({ auth }: HttpContextContract) {
+    return auth.user
   }
 }
