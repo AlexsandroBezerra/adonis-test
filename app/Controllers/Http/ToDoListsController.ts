@@ -1,27 +1,26 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Profile from 'App/Models/Profile'
+
 import ToDoList from 'App/Models/ToDoList'
 
 export default class ToDoListsController {
-  public async index({ request }: HttpContextContract) {
-    const qs = request.qs()
-    const profileId = +qs.profileId
+  public async index({ auth, response }: HttpContextContract) {
+    if (!auth.user) {
+      return response.unauthorized({ error: 'token not provided' })
+    }
 
+    const profileId = auth.user.id
     const toDoLists = ToDoList.query().where('profile_id', profileId)
 
     return toDoLists
   }
 
-  public async create({ request, response }: HttpContextContract) {
-    const { name, profileId } = request.only(['name', 'profileId'])
-
-    const profile = await Profile.find(profileId)
-
-    if (!profile) {
-      return response.badRequest({ error: 'profileId provided is invalid' })
+  public async create({ auth, request, response }: HttpContextContract) {
+    if (!auth.user) {
+      return response.unauthorized({ error: 'token not provided' })
     }
 
-    const toDoList = await profile.related('toDoLists').create({ name })
+    const { name } = request.only(['name'])
+    const toDoList = await auth.user.related('toDoLists').create({ name })
 
     return toDoList
   }

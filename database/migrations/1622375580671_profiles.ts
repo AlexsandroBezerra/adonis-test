@@ -8,6 +8,7 @@ export default class Profiles extends BaseSchema {
       table.increments('id').primary()
       table.string('name').notNullable()
       table.string('email').unique().notNullable()
+      table.string('password').notNullable()
       table.string('avatar').nullable()
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

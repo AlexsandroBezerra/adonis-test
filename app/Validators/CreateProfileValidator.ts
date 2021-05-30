@@ -7,6 +7,10 @@ export default class CreateProfileValidator {
   public schema = schema.create({
     name: schema.string({ trim: true }),
     email: schema.string({ trim: true }, [rules.email()]),
+    password: schema.string({ trim: true }, [
+      rules.confirmed('password_confirmation'),
+      rules.minLength(6),
+    ]),
   })
 
   public messages = {}

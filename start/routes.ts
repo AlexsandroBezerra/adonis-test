@@ -23,13 +23,24 @@ import Application from '@ioc:Adonis/Core/Application'
 
 Route.group(() => {
   Route.post('/', 'ProfilesController.create')
-  Route.post('/avatar', 'ProfilesController.uploadAvatar')
+  Route.get('/', 'ProfilesController.show').middleware('auth')
 }).prefix('/profiles')
+
+Route.group(() => {
+  Route.post('/', 'UserAvatarsController.create')
+  Route.delete('/', 'UserAvatarsController.delete')
+})
+  .prefix('/avatar')
+  .middleware('auth')
 
 Route.group(() => {
   Route.get('/', 'ToDoListsController.index')
   Route.post('/', 'ToDoListsController.create')
-}).prefix('/to-do-lists')
+})
+  .prefix('/to-do-lists')
+  .middleware('auth')
+
+Route.post('/sessions', 'SessionsController.create')
 
 Route.get('/uploads/:filename', async ({ params, response }) => {
   return response.attachment(Application.tmpPath('uploads', params.filename))
