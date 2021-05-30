@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
+import Env from '@ioc:Adonis/Core/Env'
 
 import ToDoList from './ToDoList'
 
@@ -19,7 +20,7 @@ export default class User extends BaseModel {
 
   @column({
     serialize(value) {
-      return value ? `http://localhost:3333/uploads/${value}` : null
+      return value ? `${Env.get('API_URL')}/uploads/${value}` : null
     },
   })
   public avatar: string | null
